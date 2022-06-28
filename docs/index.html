@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+    <title>GitHub Actions</title>
+
+    <link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css" />
+    <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
+    <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
+  </head>
+
+  <body>
+    <py-env>
+    </py-env>
+    <py-script src="./release.py"> </py-script>
+    <py-script>
+from datetime import datetime
+now = datetime.now()
+now.strftime("%m/%d/%Y, %H:%M:%S")
+    </py-script>
+    <br><br><br>
+
+    <form onsubmit="return false" name="ReleaseForm" ls-form="release-init">
+        <strong>Process to create a release with the current default branch.</strong>
+        <br>
+        <label for="github_token">Github token:</label>
+        <input type="text" id="github_token" name="github_token" autocomplete="on">
+        <div>
+            <input type="checkbox" id="do-release" name="do-release" value="Do Release" checked="true">
+            <label for="do-release"> Do Release</label><br>
+        </div>
+        <div>
+            <input type="checkbox" id="download-release" name="download-release" value="Download zip" checked="true">
+            <label for="download-release"> Download zip</label><br>
+        </div>
+        <div> <br>The VERSION file is generated on the fly and added to the created zip file.</div>
+        
+        <div>
+            <input type="radio" id="version-blender" name="version-release" value="Version Blender" checked="true">
+            <label for="version-blender"> Version Blender (seek for <strong>"version":(0,0,0)</strong> in __init__.py)</label><br>
+        </div>
+        <div>
+            <input type="radio" id="version-module" name="version-release" value="Version Module" checked="false">
+            <label for="version-module"> Version Python Module (seek for <strong>__version__="0.0.0"</strong> in __init__.py)</label><br>
+        </div>
+        <br><br>
+        <button id="new-task-btn" 
+            name="new-task-btn"
+            class="p-2 text-white bg-blue-600 border border-blue-600 rounded" 
+            type="submit" 
+            pys-onClick="do_release">
+            Do Release
+        </button>
+    </form>
+    
+    <div><br><br>Console:</div>
+    <div id="console-red" class="font-mono bg-red-200"></div>
+    <div id="console-green" class="font-mono bg-green-200"></div>
+
+    <!--img src="" alt="cat" width="500" height="600"-->
+  </body>
+</html>
